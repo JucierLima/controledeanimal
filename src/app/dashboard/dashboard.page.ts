@@ -19,11 +19,21 @@ export class DashboardPage implements OnInit {
   constructor(private db: DatabaseService) { }
 
   async ngOnInit() {
-    this.animais = await this.db.listarAnimais();
+    await this.carregarAnimais();
   }
 
   async ionViewWillEnter() {
-    this.animais = await this.db.listarAnimais();
+    await this.carregarAnimais();
+  }
+
+  async carregarAnimais() {
+    try {
+      this.animais = await this.db.listarAnimais();
+      console.log('Animais carregados:', this.animais);
+    } catch (error) {
+      console.error('Erro ao carregar animais:', error);
+      this.animais = [];
+    }
   }
 
 }

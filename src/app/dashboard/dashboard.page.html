@@ -6,6 +6,7 @@
 
 <ion-content class="ion-padding">
   <ion-card *ngFor="let a of animais" [routerLink]="['/detalhe', a.id]">
+    <img *ngIf="a.imagemUrl" [src]="a.imagemUrl" class="animal-card-img">
     <ion-card-content>
       <strong>{{ a.nome || 'Sem nome' }}</strong><br>
       {{ a.raca }} - {{ a.cor }}
