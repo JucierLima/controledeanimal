@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>DASHBOARD</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let a of animais" [routerLink]="['/detalhe', a.id]">
+    <ion-card-content>
+      <strong>{{ a.nome || 'Sem nome' }}</strong><br>
+      {{ a.raca }} - {{ a.cor }}
+    </ion-card-content>
+  </ion-card>
+  
+  <div *ngIf="animais.length === 0" class="ion-text-center">
+    <p>Nenhum animal cadastrado ainda.</p>
+  </div>
+</ion-content>

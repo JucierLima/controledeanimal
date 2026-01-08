@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ADICIONE UM ANIMAL</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="upload-box">
+    <p>+ adicionar imagem</p>
+    <small>obrigatório</small>
+    <form>
+      <input type="file" id="add1" name="adicionar imagem ">
+    </form>
+  </div>
+
+  <ion-input fill="solid" placeholder="Nome" [(ngModel)]="animal.nome"></ion-input>
+  <ion-input fill="solid" placeholder="Sexo" [(ngModel)]="animal.sexo"></ion-input>
+  <ion-input fill="solid" placeholder="Idade" [(ngModel)]="animal.idade"></ion-input>
+  <ion-input fill="solid" placeholder="Raça *" [(ngModel)]="animal.raca"></ion-input>
+  <ion-input fill="solid" placeholder="Cor *" [(ngModel)]="animal.cor"></ion-input>
+  <ion-input fill="solid" placeholder="Origem" [(ngModel)]="animal.origem"></ion-input>
+  <ion-input fill="solid" placeholder="Filhos" [(ngModel)]="animal.filhos"></ion-input>
+  <ion-input fill="solid" placeholder="Data de cruzamento" [(ngModel)]="animal.data_cruzamento"></ion-input>
+  <ion-input fill="solid" placeholder="Tamanho *" [(ngModel)]="animal.tamanho"></ion-input>
+  <ion-input fill="solid" placeholder="Peso KG *" [(ngModel)]="animal.peso"></ion-input>
+  <ion-textarea fill="solid" placeholder="Descrição *" [(ngModel)]="animal.descricao"></ion-textarea>
+
+</ion-content>
+
+<ion-footer>
+  <ion-button class="btn-save" expand="block" (click)="salvar()">SALVAR</ion-button>
+</ion-footer>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  [duration]="3000"
+  (didDismiss)="showToast = false">
+</ion-toast>

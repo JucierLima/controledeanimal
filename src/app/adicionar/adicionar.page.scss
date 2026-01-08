@@ -1,0 +1,23 @@
+.upload-box {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.upload-box p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.upload-box small {
+  color: #999;
+}
+
+ion-input, ion-textarea {
+  margin-bottom: 15px;
+  --border-radius: 8px;
+  --border-color: #ddd;
+}

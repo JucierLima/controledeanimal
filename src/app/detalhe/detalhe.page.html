@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>MAIS INFORMAÇÕES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <img src="https://via.placeholder.com/250" class="animal-img">
+
+  <div class="info"><span>NOME</span> {{ animal.nome || '—' }}</div>
+  <div class="info"><span>SEXO</span> {{ animal.sexo || '—' }}</div>
+  <div class="info"><span>IDADE</span> {{ animal.idade || '—' }}</div>
+  <div class="info"><span>RAÇA</span> {{ animal.raca || '—' }}</div>
+  <div class="info"><span>COR</span> {{ animal.cor || '—' }}</div>
+  <div class="info"><span>ORIGEM</span> {{ animal.origem || '—' }}</div>
+  <div class="info"><span>FILHOS</span> {{ animal.filhos || '—' }}</div>
+  <div class="info"><span>DATA DE CRUZAMENTO</span> {{ animal.data_cruzamento || '—' }}</div>
+  <div class="info"><span>TAMANHO</span> {{ animal.tamanho || '—' }}</div>
+  <div class="info"><span>PESO KG</span> {{ animal.peso || '—' }}</div>
+  <div class="info large"><span>DESCRIÇÃO</span> {{ animal.descricao || '—' }}</div>
+
+</ion-content>
