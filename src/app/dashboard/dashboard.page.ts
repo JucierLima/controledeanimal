@@ -1,39 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
-import { DatabaseService } from '../services/database.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, RouterModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, RouterModule, IonButton]
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage {
 
   animais: any[] = [];
 
-  constructor(private db: DatabaseService) { }
+  constructor(private storage: StorageService) {}
 
-  async ngOnInit() {
-    await this.carregarAnimais();
-  }
-
-  async ionViewWillEnter() {
-    await this.carregarAnimais();
-  }
-
-  async carregarAnimais() {
-    try {
-      this.animais = await this.db.listarAnimais();
-      console.log('Animais carregados:', this.animais);
-    } catch (error) {
-      console.error('Erro ao carregar animais:', error);
-      this.animais = [];
-    }
+  ionViewWillEnter() {
+    console.log('Entrou no Dashboard');
+    this.animais = this.storage.getAll();
+    console.log('Animais carregados:', this.animais);
   }
 
 }

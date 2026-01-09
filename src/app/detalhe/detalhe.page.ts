@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
-import { DatabaseService } from '../services/database.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-detalhe',
@@ -18,13 +18,13 @@ export class DetalhePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private db: DatabaseService
+    private storage: StorageService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.animal = await this.db.obterAnimal(parseInt(id));
+      this.animal = this.storage.getById(parseInt(id));
     }
   }
 

@@ -5,15 +5,19 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngFor="let a of animais" [routerLink]="['/detalhe', a.id]">
-    <img *ngIf="a.imagemUrl" [src]="a.imagemUrl" class="animal-card-img">
-    <ion-card-content>
-      <strong>{{ a.nome || 'Sem nome' }}</strong><br>
-      {{ a.raca }} - {{ a.cor }}
-    </ion-card-content>
-  </ion-card>
-  
-  <div *ngIf="animais.length === 0" class="ion-text-center">
-    <p>Nenhum animal cadastrado ainda.</p>
+  <div *ngIf="animais.length === 0">
+    Nenhum animal cadastrado ainda.
+  </div>
+
+  <div *ngFor="let a of animais">
+    <ion-card [routerLink]="['/detalhe', a.id]" button>
+      <img *ngIf="a.imagem" [src]="a.imagem" class="animal-card-img">
+      <ion-card-content>
+        <h3>{{ a.raca }} - {{ a.cor }}</h3>
+        <p><strong>{{ a.nome || 'Sem nome' }}</strong></p>
+        <p>{{ a.descricao }}</p>
+        <small>ID: {{ a.id }}</small>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

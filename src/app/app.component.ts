@@ -11,6 +11,11 @@ export class AppComponent implements OnInit {
   constructor(private db: DatabaseService) {}
 
   async ngOnInit() {
-    await this.db.criarBanco();
+    try {
+      await this.db.init();
+      console.log('App inicializado com SQLite');
+    } catch (error) {
+      console.error('Erro ao inicializar app:', error);
+    }
   }
 }

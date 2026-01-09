@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding">
 
-  <img src="https://via.placeholder.com/250" class="animal-img">
+  <img *ngIf="animal.imagem" [src]="animal.imagem" class="animal-img">
 
   <div class="info"><span>NOME</span> {{ animal.nome || '—' }}</div>
   <div class="info"><span>SEXO</span> {{ animal.sexo || '—' }}</div>

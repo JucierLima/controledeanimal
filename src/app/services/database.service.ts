@@ -6,30 +6,38 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root'
 })
 export class DatabaseService {
-  private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
+
+  private sqlite = new SQLiteConnection(CapacitorSQLite);
   private db!: SQLiteDBConnection;
-  private isDbReady = false;
+  private iniciado = false;
 
-  constructor() {}
+  async init() {
+    if (this.iniciado) return;
 
-  async criarBanco() {
     try {
-      // Aguardar o jeep-sqlite estar pronto no navegador
       if (!Capacitor.isNativePlatform()) {
-        const jeepSqliteEl = document.querySelector('jeep-sqlite');
-        if (jeepSqliteEl) {
+        // Aguardar jeep-sqlite estar disponível
+        const jeep = document.querySelector('jeep-sqlite');
+        if (jeep) {
           await customElements.whenDefined('jeep-sqlite');
-          await (jeepSqliteEl as any).initWebStore();
+          await (jeep as any).initWebStore();
+          console.log('jeep-sqlite inicializado');
+        } else {
+          console.error('jeep-sqlite não encontrado no DOM');
+          throw new Error('jeep-sqlite não encontrado');
         }
       }
-      
-      if (Capacitor.isNativePlatform()) {
-        this.db = await this.sqlite.createConnection('cunicultura.db', false, 'no-encryption', 1, false);
-      } else {
-        this.db = await this.sqlite.createConnection('cunicultura.db', false, 'no-encryption', 1, true);
-      }
-      
+
+      this.db = await this.sqlite.createConnection(
+        'cunicultura',
+        false,
+        'no-encryption',
+        1,
+        !Capacitor.isNativePlatform()
+      );
+
       await this.db.open();
+      console.log('Conexão SQLite aberta');
 
       await this.db.execute(`
         CREATE TABLE IF NOT EXISTS animais (
@@ -37,98 +45,102 @@ export class DatabaseService {
           nome TEXT,
           sexo TEXT,
           idade TEXT,
-          raca TEXT NOT NULL,
-          cor TEXT NOT NULL,
+          raca TEXT,
+          cor TEXT,
           origem TEXT,
           filhos TEXT,
           data_cruzamento TEXT,
-          tamanho TEXT NOT NULL,
-          peso TEXT NOT NULL,
-          descricao TEXT NOT NULL,
-          imagem BLOB NOT NULL
+          tamanho TEXT,
+          peso TEXT,
+          descricao TEXT,
+          imagem BLOB
         )
       `);
-      
-      this.isDbReady = true;
-      console.log('Banco criado com sucesso');
+      console.log('Tabela criada');
+
+      this.iniciado = true;
+      console.log('SQLite pronto');
     } catch (error) {
-      console.error('Erro ao criar banco:', error);
+      console.error('Erro ao inicializar SQLite:', error);
       throw error;
     }
   }
 
-  async adicionarAnimal(animal: any) {
+  async addAnimal(a: any) {
     try {
-      if (!this.isDbReady) {
-        await this.criarBanco();
-      }
-      
-      const sql = `
-        INSERT INTO animais 
+      await this.init();
+      console.log('Adicionando animal:', a);
+
+      const result = await this.db.run(
+        `INSERT INTO animais
         (nome, sexo, idade, raca, cor, origem, filhos, data_cruzamento, tamanho, peso, descricao, imagem)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-      `;
-      const valores = [
-        animal.nome || null,
-        animal.sexo || null,
-        animal.idade || null,
-        animal.raca,
-        animal.cor,
-        animal.origem || null,
-        animal.filhos || null,
-        animal.data_cruzamento || null,
-        animal.tamanho,
-        animal.peso,
-        animal.descricao,
-        animal.imagem
-      ];
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+        [
+          a.nome ?? null,
+          a.sexo ?? null,
+          a.idade ?? null,
+          a.raca ?? null,
+          a.cor ?? null,
+          a.origem ?? null,
+          a.filhos ?? null,
+          a.data_cruzamento ?? null,
+          a.tamanho ?? null,
+          a.peso ?? null,
+          a.descricao ?? null,
+          a.imagem ?? null
+        ]
+      );
       
-      console.log('Executando SQL:', sql);
-      console.log('Valores:', valores);
-      
-      const result = await this.db.run(sql, valores);
-      console.log('Resultado:', result);
+      console.log('Animal adicionado com sucesso:', result);
       return result;
     } catch (error) {
-      console.error('Erro no adicionarAnimal:', error);
+      console.error('Erro ao adicionar animal:', error);
       throw error;
     }
   }
 
-  async listarAnimais() {
+  async getAnimais(): Promise<any[]> {
     try {
-      if (!this.isDbReady) {
-        await this.criarBanco();
-      }
-      const result = await this.db.query('SELECT * FROM animais');
+      await this.init();
+      console.log('Buscando animais...');
       
-      // Converter BLOB para base64 para exibição
-      const animais = result.values?.map((animal: any) => {
+      const res = await this.db.query('SELECT * FROM animais');
+      console.log('Resultado da query:', res);
+      
+      // Converter BLOB para base64
+      const animais = res.values?.map((animal: any) => {
+        console.log('Processando animal:', animal);
         if (animal.imagem) {
-          const uint8Array = new Uint8Array(animal.imagem);
-          const base64 = btoa(String.fromCharCode(...uint8Array));
-          animal.imagemUrl = `data:image/jpeg;base64,${base64}`;
+          try {
+            const uint8Array = new Uint8Array(animal.imagem);
+            const base64 = btoa(String.fromCharCode(...uint8Array));
+            animal.imagemUrl = `data:image/jpeg;base64,${base64}`;
+          } catch (error) {
+            console.error('Erro ao converter imagem:', error);
+          }
         }
         return animal;
       }) || [];
       
+      console.log('Animais processados:', animais);
       return animais;
     } catch (error) {
-      console.error('Erro ao listar animais:', error);
+      console.error('Erro ao buscar animais:', error);
       return [];
     }
   }
 
-  async obterAnimal(id: number) {
-    try {
-      if (!this.isDbReady) {
-        await this.criarBanco();
-      }
-      const result = await this.db.query('SELECT * FROM animais WHERE id = ?', [id]);
-      return result.values?.[0] || null;
-    } catch (error) {
-      console.error('Erro ao obter animal:', error);
-      return null;
+  async getAnimal(id: number) {
+    await this.init();
+    const res = await this.db.query('SELECT * FROM animais WHERE id = ?', [id]);
+    const animal = res.values?.[0] || null;
+    
+    if (animal && animal.imagem) {
+      const uint8Array = new Uint8Array(animal.imagem);
+      const base64 = btoa(String.fromCharCode(...uint8Array));
+      animal.imagemUrl = `data:image/jpeg;base64,${base64}`;
     }
+    
+    return animal;
   }
 }
