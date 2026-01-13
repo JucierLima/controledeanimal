@@ -10,13 +10,16 @@
   </div>
 
   <div *ngFor="let a of animais">
-    <ion-card [routerLink]="['/detalhe', a.id]" button>
+    <ion-card>
       <img *ngIf="a.imagem" [src]="a.imagem" class="animal-card-img">
       <ion-card-content>
         <h3>{{ a.raca }} - {{ a.cor }}</h3>
         <p><strong>{{ a.nome || 'Sem nome' }}</strong></p>
         <p>{{ a.descricao }}</p>
         <small>ID: {{ a.id }}</small>
+        <ion-button color="danger" expand="block" [routerLink]="['/detalhe', a.id]">
+          Ver mais detalhes
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </div>
