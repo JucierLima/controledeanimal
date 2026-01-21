@@ -14,7 +14,11 @@ export class SupabaseService {
     const supabaseUrl = 'https://vpthpqkkajuawuajffij.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwdGhwcWtrYWp1YXd1YWpmZmlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMDY4MTUsImV4cCI6MjA4NDU4MjgxNX0.phyUC3fG1Ou48yW8L9P1l8t7qsFN7oxhWZbFaO5f3GY';
     
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: false
+      }
+    });
   }
 
   // ADICIONAR ANIMAL - APENAS SUPABASE
@@ -66,7 +70,7 @@ export class SupabaseService {
   getAnimal(id: number): Observable<any> {
     console.log('Buscando animal ID:', id, 'no Supabase');
     
-    return from(this.supabase.from('animal').select('*').eq('id', id).single()).pipe(
+    return from(this.supabase.from('animal').select('*').eq('id', id)).pipe(
       map((response: any) => {
         if (response.error) {
           console.error('Erro ao buscar animal:', response.error);
@@ -74,7 +78,7 @@ export class SupabaseService {
         }
         
         console.log('Animal encontrado no Supabase:', response.data);
-        return response.data;
+        return response.data?.[0] || null;
       }),
       catchError((error) => {
         console.error('Falha ao buscar animal do Supabase:', error);
