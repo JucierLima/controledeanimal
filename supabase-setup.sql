@@ -1,7 +1,6 @@
--- Criar tabela animal se não existir
+-- Criar tabela animal (DADOS GLOBAIS - SEM FILTROS)
 CREATE TABLE IF NOT EXISTS animal (
   id BIGINT PRIMARY KEY,
-  device_id TEXT NOT NULL,
   nome TEXT,
   sexo TEXT,
   idade TEXT,
@@ -25,21 +24,18 @@ CREATE TABLE IF NOT EXISTS animal (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Habilitar RLS
-ALTER TABLE animal ENABLE ROW LEVEL SECURITY;
+-- REMOVER device_id se existir
+ALTER TABLE animal DROP COLUMN IF EXISTS device_id;
 
--- Política para permitir inserção por qualquer device_id
-CREATE POLICY "Permitir inserção por device_id" ON animal
-  FOR INSERT WITH CHECK (true);
+-- REMOVER RLS para permitir acesso global
+ALTER TABLE animal DISABLE ROW LEVEL SECURITY;
 
--- Política para permitir leitura apenas do próprio device_id
-CREATE POLICY "Permitir leitura por device_id" ON animal
-  FOR SELECT USING (true);
+-- Remover todas as políticas existentes
+DROP POLICY IF EXISTS "Permitir inserção por device_id" ON animal;
+DROP POLICY IF EXISTS "Permitir leitura por device_id" ON animal;
+DROP POLICY IF EXISTS "Permitir atualização por device_id" ON animal;
+DROP POLICY IF EXISTS "Permitir exclusão por device_id" ON animal;
 
--- Política para permitir atualização apenas do próprio device_id
-CREATE POLICY "Permitir atualização por device_id" ON animal
-  FOR UPDATE USING (true);
-
--- Política para permitir exclusão apenas do próprio device_id
-CREATE POLICY "Permitir exclusão por device_id" ON animal
-  FOR DELETE USING (true);
+-- Garantir que todos possam acessar os dados
+GRANT ALL ON animal TO anon;
+GRANT ALL ON animal TO authenticated;

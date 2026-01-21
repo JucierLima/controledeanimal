@@ -19,7 +19,7 @@ export class DashboardPage implements OnInit {
   constructor(private supabase: SupabaseService) {}
 
   async ngOnInit() {
-    console.log('Dashboard inicializado');
+    console.log('Dashboard inicializado - dados virão APENAS do Supabase');
   }
 
   ionViewWillEnter() {
@@ -28,15 +28,16 @@ export class DashboardPage implements OnInit {
   }
 
   carregarAnimais() {
-    console.log('Carregando animais...');
+    console.log('Carregando animais do Supabase...');
     this.supabase.getAnimais().subscribe({
       next: (animais) => {
-        console.log('Animais recebidos:', animais);
-        this.animais = animais || [];
+        console.log(`${animais.length} animais carregados do Supabase`);
+        this.animais = animais;
       },
       error: (error) => {
-        console.error('Erro ao carregar animais:', error);
+        console.error('ERRO: Falha ao carregar animais do Supabase:', error);
         this.animais = [];
+        // Aqui você pode mostrar uma mensagem de erro para o usuário
       }
     });
   }

@@ -98,11 +98,11 @@ export class AdicionarPage {
       return;
     }
 
-    console.log('Salvando animal:', this.animal);
+    console.log('Salvando animal APENAS no Supabase:', this.animal);
     
     this.supabase.addAnimal(this.animal).subscribe({
       next: (response) => {
-        console.log('Animal salvo:', response);
+        console.log('Animal salvo no Supabase:', response);
         this.mostrarToast('Animal salvo com sucesso!');
         
         // Limpar formulário
@@ -121,8 +121,8 @@ export class AdicionarPage {
         }, 1000);
       },
       error: (error) => {
-        console.error('Erro ao salvar:', error);
-        this.mostrarToast('Erro ao salvar animal: ' + (error.message || error));
+        console.error('ERRO: Falha ao salvar no Supabase:', error);
+        this.mostrarToast('ERRO: Não foi possível salvar. Verifique sua conexão.');
       }
     });
   }
