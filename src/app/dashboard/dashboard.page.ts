@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton, IonButtons, IonIcon } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
 
@@ -10,7 +10,7 @@ import { SupabaseService } from '../services/supabase.service';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, RouterModule, IonButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, RouterModule, IonButton, IonButtons, IonIcon]
 })
 export class DashboardPage implements OnInit {
 
@@ -37,9 +37,22 @@ export class DashboardPage implements OnInit {
       error: (error) => {
         console.error('ERRO: Falha ao carregar animais do Supabase:', error);
         this.animais = [];
-        // Aqui você pode mostrar uma mensagem de erro para o usuário
       }
     });
+  }
+
+  excluirAnimal(id: number) {
+    if (confirm('Tem certeza que deseja excluir este animal?')) {
+      this.supabase.deleteAnimal(id).subscribe({
+        next: () => {
+          console.log('Animal excluído com sucesso');
+          this.carregarAnimais();
+        },
+        error: (error) => {
+          console.error('Erro ao excluir animal:', error);
+        }
+      });
+    }
   }
 
 }

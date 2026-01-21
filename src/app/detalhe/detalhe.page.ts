@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { SupabaseService } from '../services/supabase.service';
   templateUrl: './detalhe.page.html',
   styleUrls: ['./detalhe.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton]
 })
 export class DetalhePage implements OnInit {
 
@@ -18,6 +18,7 @@ export class DetalhePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private supabase: SupabaseService
   ) { }
 
@@ -37,6 +38,10 @@ export class DetalhePage implements OnInit {
         }
       });
     }
+  }
+
+  editarAnimal() {
+    this.router.navigate(['/editar', this.animal.id]);
   }
 
 }

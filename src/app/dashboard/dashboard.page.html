@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>DASHBOARD</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/home']" fill="clear">
+        <ion-icon name="home" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -19,6 +24,9 @@
         <small>ID: {{ a.id }}</small>
         <ion-button color="danger" expand="block" [routerLink]="['/detalhe', a.id]">
           Ver mais detalhes
+        </ion-button>
+        <ion-button color="warning" expand="block" (click)="excluirAnimal(a.id)">
+          Excluir
         </ion-button>
       </ion-card-content>
     </ion-card>

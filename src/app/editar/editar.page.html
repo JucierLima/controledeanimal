@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>EDITAR ANIMAL</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-input fill="solid" placeholder="Nome" [(ngModel)]="animal.nome"></ion-input>
+  <ion-input fill="solid" placeholder="Sexo" [(ngModel)]="animal.sexo"></ion-input>
+  <ion-input fill="solid" placeholder="Idade" [(ngModel)]="animal.idade"></ion-input>
+  <ion-input fill="solid" placeholder="Raça" [(ngModel)]="animal.raca"></ion-input>
+  <ion-input fill="solid" placeholder="Cor" [(ngModel)]="animal.cor"></ion-input>
+  <ion-input fill="solid" placeholder="Origem" [(ngModel)]="animal.origem"></ion-input>
+  <ion-input fill="solid" placeholder="Data nascimento" [(ngModel)]="animal.data_nascimento"></ion-input>
+  <ion-input fill="solid" placeholder="Data cobertura" [(ngModel)]="animal.data_cobertura"></ion-input>
+  <ion-input fill="solid" placeholder="Data provável parto" [(ngModel)]="animal.data_provavel_parto"></ion-input>
+  <ion-input fill="solid" placeholder="Data do parto" [(ngModel)]="animal.data_parto"></ion-input>
+  <ion-input fill="solid" placeholder="N° filhotes vivos" type="number" [(ngModel)]="animal.filhotes_vivos"></ion-input>
+  <ion-input fill="solid" placeholder="N° filhotes mortos" type="number" [(ngModel)]="animal.filhotes_mortos"></ion-input>
+  <ion-input fill="solid" placeholder="Filhos" [(ngModel)]="animal.filhos"></ion-input>
+  <ion-input fill="solid" placeholder="Data de cruzamento" [(ngModel)]="animal.data_cruzamento"></ion-input>
+  <ion-input fill="solid" placeholder="Tamanho" [(ngModel)]="animal.tamanho"></ion-input>
+  <ion-input fill="solid" placeholder="Peso KG" [(ngModel)]="animal.peso"></ion-input>
+  <ion-textarea fill="solid" placeholder="Descrição" [(ngModel)]="animal.descricao"></ion-textarea>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" (click)="salvar()">SALVAR ALTERAÇÕES</ion-button>
+</ion-footer>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  [duration]="3000"
+  position="bottom"
+  (didDismiss)="showToast = false">
+</ion-toast>

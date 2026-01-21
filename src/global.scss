@@ -36,8 +36,11 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 /* Custom styles */
-* {
+body, ion-content, ion-header, ion-toolbar, ion-button, ion-input, ion-textarea {
   font-family: Arial, sans-serif;
+}
+
+* {
   box-sizing: border-box;
 }
 
