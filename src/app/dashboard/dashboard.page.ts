@@ -19,8 +19,7 @@ export class DashboardPage implements OnInit {
   constructor(private supabase: SupabaseService) {}
 
   async ngOnInit() {
-    // Migrar dados locais na primeira vez
-    await this.supabase.migrarDadosLocais();
+    console.log('Dashboard inicializado');
   }
 
   ionViewWillEnter() {
@@ -29,10 +28,11 @@ export class DashboardPage implements OnInit {
   }
 
   carregarAnimais() {
+    console.log('Carregando animais...');
     this.supabase.getAnimais().subscribe({
       next: (animais) => {
-        this.animais = animais;
-        console.log('Animais carregados:', this.animais);
+        console.log('Animais recebidos:', animais);
+        this.animais = animais || [];
       },
       error: (error) => {
         console.error('Erro ao carregar animais:', error);

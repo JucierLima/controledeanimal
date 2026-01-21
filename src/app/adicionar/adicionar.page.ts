@@ -66,21 +66,23 @@ export class AdicionarPage {
   }
 
   salvar() {
+    console.log('Dados do animal antes da validação:', this.animal);
+    
     // Validar campos obrigatórios
-    if (!this.animal.origem?.trim()) {
-      this.mostrarToast('Campo "Origem" é obrigatório!');
-      return;
-    }
-    if (!this.animal.data_nascimento?.trim()) {
-      this.mostrarToast('Campo "Data nascimento/vinda" é obrigatório!');
-      return;
-    }
     if (!this.animal.raca?.trim()) {
       this.mostrarToast('Campo "Raça" é obrigatório!');
       return;
     }
     if (!this.animal.cor?.trim()) {
       this.mostrarToast('Campo "Cor" é obrigatório!');
+      return;
+    }
+    if (!this.animal.origem?.trim()) {
+      this.mostrarToast('Campo "Origem" é obrigatório!');
+      return;
+    }
+    if (!this.animal.data_nascimento?.trim()) {
+      this.mostrarToast('Campo "Data nascimento/vinda" é obrigatório!');
       return;
     }
     if (!this.animal.tamanho?.trim()) {
@@ -102,17 +104,25 @@ export class AdicionarPage {
       next: (response) => {
         console.log('Animal salvo:', response);
         this.mostrarToast('Animal salvo com sucesso!');
+        
+        // Limpar formulário
         this.animal = {};
         this.imagemPreview = null;
         this.fotoPaiPreview = null;
         this.fotoMaePreview = null;
+        this.imagemSelecionada = null;
+        
+        // Resetar inputs de arquivo
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach((input: any) => input.value = '');
+        
         setTimeout(() => {
           this.router.navigate(['/dashboard']);
         }, 1000);
       },
       error: (error) => {
         console.error('Erro ao salvar:', error);
-        this.mostrarToast('Erro ao salvar animal!');
+        this.mostrarToast('Erro ao salvar animal: ' + (error.message || error));
       }
     });
   }

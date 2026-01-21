@@ -23,13 +23,17 @@ export class DetalhePage implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    console.log('ID recebido na página de detalhes:', id);
+    
     if (id) {
       this.supabase.getAnimal(parseInt(id)).subscribe({
         next: (animal) => {
-          this.animal = animal;
+          console.log('Animal carregado na página de detalhes:', animal);
+          this.animal = animal || {};
         },
         error: (error) => {
           console.error('Erro ao carregar animal:', error);
+          this.animal = {};
         }
       });
     }
