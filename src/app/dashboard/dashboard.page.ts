@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
-import { StorageService } from '../services/storage.service';
+import { HybridService } from '../services/hybrid.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,12 +16,24 @@ export class DashboardPage {
 
   animais: any[] = [];
 
-  constructor(private storage: StorageService) {}
+  constructor(private hybrid: HybridService) {}
 
   ionViewWillEnter() {
     console.log('Entrou no Dashboard');
-    this.animais = this.storage.getAll();
-    console.log('Animais carregados:', this.animais);
+    this.carregarAnimais();
+  }
+
+  carregarAnimais() {
+    this.hybrid.getAnimais().subscribe({
+      next: (animais) => {
+        this.animais = animais;
+        console.log('Animais carregados:', this.animais);
+      },
+      error: (error) => {
+        console.error('Erro ao carregar animais:', error);
+        this.animais = [];
+      }
+    });
   }
 
 }

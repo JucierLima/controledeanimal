@@ -16,7 +16,25 @@
   <div class="info"><span>IDADE</span> {{ animal.idade || '—' }}</div>
   <div class="info"><span>RAÇA</span> {{ animal.raca || '—' }}</div>
   <div class="info"><span>COR</span> {{ animal.cor || '—' }}</div>
+  
+  <!-- Fotos do Pai e Mãe -->
+  <div *ngIf="animal.foto_pai" class="info">
+    <span>FOTO DO PAI</span>
+    <img [src]="animal.foto_pai" class="foto-pequena">
+  </div>
+  
+  <div *ngIf="animal.foto_mae" class="info">
+    <span>FOTO DA MÃE</span>
+    <img [src]="animal.foto_mae" class="foto-pequena">
+  </div>
+  
   <div class="info"><span>ORIGEM</span> {{ animal.origem || '—' }}</div>
+  <div class="info"><span>DATA NASCIMENTO/VINDA</span> {{ animal.data_nascimento || '—' }}</div>
+  <div class="info"><span>DATA COBERTURA</span> {{ animal.data_cobertura || '—' }}</div>
+  <div class="info"><span>DATA PROVÁVEL PARTO</span> {{ animal.data_provavel_parto || '—' }}</div>
+  <div class="info"><span>DATA DO PARTO</span> {{ animal.data_parto || '—' }}</div>
+  <div class="info"><span>N° FILHOTES VIVOS</span> {{ animal.filhotes_vivos || '—' }}</div>
+  <div class="info"><span>N° FILHOTES MORTOS</span> {{ animal.filhotes_mortos || '—' }}</div>
   <div class="info"><span>FILHOS</span> {{ animal.filhos || '—' }}</div>
   <div class="info"><span>DATA DE CRUZAMENTO</span> {{ animal.data_cruzamento || '—' }}</div>
   <div class="info"><span>TAMANHO</span> {{ animal.tamanho || '—' }}</div>

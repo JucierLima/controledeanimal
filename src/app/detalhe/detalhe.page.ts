@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
-import { StorageService } from '../services/storage.service';
+import { HybridService } from '../services/hybrid.service';
 
 @Component({
   selector: 'app-detalhe',
@@ -18,13 +18,20 @@ export class DetalhePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private storage: StorageService
+    private hybrid: HybridService
   ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.animal = this.storage.getById(parseInt(id));
+      this.hybrid.getAnimal(parseInt(id)).subscribe({
+        next: (animal) => {
+          this.animal = animal;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar animal:', error);
+        }
+      });
     }
   }
 

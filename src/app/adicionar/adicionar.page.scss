@@ -49,3 +49,35 @@ ion-input, ion-textarea {
   opacity: 0;
   cursor: pointer;
 }
+.upload-box-small {
+  background: #d9d9d9;
+  height: 120px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  position: relative;
+}
+
+.upload-box-small p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.upload-box-small input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.preview-small {
+  max-width: 100px;
+  max-height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+}

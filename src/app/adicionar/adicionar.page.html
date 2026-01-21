@@ -22,9 +22,30 @@
   <ion-input fill="solid" placeholder="Idade (ex: 2 anos)" [(ngModel)]="animal.idade"></ion-input>
   <ion-input fill="solid" placeholder="Raça * (ex: Mini Coelho)" [(ngModel)]="animal.raca"></ion-input>
   <ion-input fill="solid" placeholder="Cor * (ex: Amarela)" [(ngModel)]="animal.cor"></ion-input>
-  <ion-input fill="solid" placeholder="Origem (ex: Paulista)" [(ngModel)]="animal.origem"></ion-input>
+  
+  <!-- Foto do Pai -->
+  <div class="upload-box-small">
+    <p>+ Foto do Pai (opcional)</p>
+    <input type="file" accept="image/*" (change)="onFotoPaiSelecionada($event)">
+    <img *ngIf="fotoPaiPreview" [src]="fotoPaiPreview" class="preview-small">
+  </div>
+  
+  <!-- Foto da Mãe -->
+  <div class="upload-box-small">
+    <p>+ Foto da Mãe (opcional)</p>
+    <input type="file" accept="image/*" (change)="onFotoMaeSelecionada($event)">
+    <img *ngIf="fotoMaePreview" [src]="fotoMaePreview" class="preview-small">
+  </div>
+  
+  <ion-input fill="solid" placeholder="Origem * (ex: Fazenda São João)" [(ngModel)]="animal.origem"></ion-input>
+  <ion-input fill="solid" placeholder="Data nascimento/vinda * (ex: 15/01/2024)" [(ngModel)]="animal.data_nascimento"></ion-input>
+  <ion-input fill="solid" placeholder="Data cobertura (ex: 10/12/2024)" [(ngModel)]="animal.data_cobertura"></ion-input>
+  <ion-input fill="solid" placeholder="Data provável parto (40-45 dias após cobertura)" [(ngModel)]="animal.data_provavel_parto"></ion-input>
+  <ion-input fill="solid" placeholder="Data do parto (ex: 20/01/2025)" [(ngModel)]="animal.data_parto"></ion-input>
+  <ion-input fill="solid" placeholder="N° filhotes vivos" type="number" [(ngModel)]="animal.filhotes_vivos"></ion-input>
+  <ion-input fill="solid" placeholder="N° filhotes mortos" type="number" [(ngModel)]="animal.filhotes_mortos"></ion-input>
   <ion-input fill="solid" placeholder="Filhos (ex: 3)" [(ngModel)]="animal.filhos"></ion-input>
-  <ion-input fill="solid" placeholder="Data cruzamento (ex: 05/01/2025)" [(ngModel)]="animal.data_cruzamento"></ion-input>
+  <ion-input fill="solid" placeholder="Data de cruzamento (ex: 05/01/2025)" [(ngModel)]="animal.data_cruzamento"></ion-input>
   <ion-input fill="solid" placeholder="Tamanho * (ex: 60 CM)" [(ngModel)]="animal.tamanho"></ion-input>
   <ion-input fill="solid" placeholder="Peso KG * (ex: 2.5)" [(ngModel)]="animal.peso"></ion-input>
   <ion-textarea fill="solid" placeholder="Descrição * (ex: Coelha carinhosa)" [(ngModel)]="animal.descricao"></ion-textarea>
