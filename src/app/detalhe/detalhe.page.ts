@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
-import { HybridService } from '../services/hybrid.service';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-detalhe',
@@ -18,13 +18,13 @@ export class DetalhePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private hybrid: HybridService
+    private supabase: SupabaseService
   ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.hybrid.getAnimal(parseInt(id)).subscribe({
+      this.supabase.getAnimal(parseInt(id)).subscribe({
         next: (animal) => {
           this.animal = animal;
         },

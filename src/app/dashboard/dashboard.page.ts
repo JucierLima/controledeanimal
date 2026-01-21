@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
-import { HybridService } from '../services/hybrid.service';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +12,16 @@ import { HybridService } from '../services/hybrid.service';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, RouterModule, IonButton]
 })
-export class DashboardPage {
+export class DashboardPage implements OnInit {
 
   animais: any[] = [];
 
-  constructor(private hybrid: HybridService) {}
+  constructor(private supabase: SupabaseService) {}
+
+  async ngOnInit() {
+    // Migrar dados locais na primeira vez
+    await this.supabase.migrarDadosLocais();
+  }
 
   ionViewWillEnter() {
     console.log('Entrou no Dashboard');
@@ -24,7 +29,7 @@ export class DashboardPage {
   }
 
   carregarAnimais() {
-    this.hybrid.getAnimais().subscribe({
+    this.supabase.getAnimais().subscribe({
       next: (animais) => {
         this.animais = animais;
         console.log('Animais carregados:', this.animais);

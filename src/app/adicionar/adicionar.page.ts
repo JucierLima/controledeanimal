@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonTextarea, IonButton, IonFooter, IonToast } from '@ionic/angular/standalone';
-import { HybridService } from '../services/hybrid.service';
+import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ export class AdicionarPage {
   fotoMaePreview: string | null = null;
 
   constructor(
-    private hybrid: HybridService,
+    private supabase: SupabaseService,
     private router: Router
   ) {}
 
@@ -98,7 +98,7 @@ export class AdicionarPage {
 
     console.log('Salvando animal:', this.animal);
     
-    this.hybrid.addAnimal(this.animal).subscribe({
+    this.supabase.addAnimal(this.animal).subscribe({
       next: (response) => {
         console.log('Animal salvo:', response);
         this.mostrarToast('Animal salvo com sucesso!');
